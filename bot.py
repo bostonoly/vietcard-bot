@@ -14,7 +14,7 @@ CHANNEL_LINK = "https://t.me/amazingviet"
  
 def subscribe_keyboard():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton("text="\u041f\u043e\u0434\u043f\u0438\u0441\u0430\u0442\u044c\u0441\u044f \u0438 \u0443\u0437\u043d\u0430\u0442\u044c \u043f\u0440\u043e \u043a\u0430\u0440\u0442\u0443", url=CHANNEL_LINK)],
+        [InlineKeyboardButton(text="\u0423\u0437\u043d\u0430\u0442\u044c \u043f\u0440\u043e \u043a\u0430\u0440\u0442\u0443", url=CHANNEL_LINK)],
         [InlineKeyboardButton(text="\u042f \u043f\u043e\u0434\u043f\u0438\u0441\u0430\u043b\u0441\u044f", callback_data="check_sub")]
     ])
  
