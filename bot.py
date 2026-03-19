@@ -14,15 +14,14 @@ CHANNEL_LINK = "https://t.me/amazingviet"
 
 def subscribe_keyboard():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="📢 Подписаться на канал", url=CHANNEL_LINK)],
-        [InlineKeyboardButton(text="✅ Я подписался", callback_data="check_sub")]
+        [InlineKeyboardButton(text="Подписаться на канал", url=CHANNEL_LINK)],
+        [InlineKeyboardButton(text="Я подписался", callback_data="check_sub")]
     ])
 
 @dp.message(CommandStart())
 async def cmd_start(message: Message):
     await message.answer(
-        "👋 Привет! Чтобы получить консультацию по карте Visa во Вьетнаме, "
-        "подпишись на наш канал — там все актуальные условия и новости. Далее с тобой свяжется менеджер",
+        "Привет! Чтобы получить консультацию по карте Visa во Вьетнаме, подпишись на наш канал.",
         reply_markup=subscribe_keyboard()
     )
 
@@ -33,8 +32,15 @@ async def check_subscription(callback: CallbackQuery):
         member = await bot.get_chat_member(chat_id=CHANNEL_ID, user_id=user_id)
         if member.status in [ChatMemberStatus.MEMBER, ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.CREATOR]:
             await callback.message.edit_text(
-                "✅ Отлично! Ожидайте — менеджер свяжется с вами в ближайшее время."
+                "Отлично! Ожидайте — менеджер свяжется с вами в ближайшее время."
             )
             user = callback.from_user
             name = user.full_name
-            username = f"@{user.use
+            if user.username:
+                username = "@" + user.username
+            else:
+                username = "без username"
+            profile_link = "tg://user?id=" + str(user_id)
+            await bot.send_message(
+                chat_id=MANAGER_ID,
+                text="Новый клиент подписался!\n\nИмя:
