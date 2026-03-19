@@ -1,7 +1,8 @@
 import asyncio
 import logging
 from aiogram import Bot, Dispatcher, F
-from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, ChatMemberStatus
+from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.enums import ChatMemberStatus
 from aiogram.filters import CommandStart
 from config import BOT_TOKEN, CHANNEL_ID, MANAGER_ID
 
@@ -21,7 +22,7 @@ def subscribe_keyboard():
 async def cmd_start(message: Message):
     await message.answer(
         "👋 Привет! Чтобы получить консультацию по карте Visa во Вьетнаме, "
-        "подпишись на наш канал — там все актуальные условия и новости.",
+        "подпишись на наш канал — там все актуальные условия и новости. Далее с тобой свяжется менеджер",
         reply_markup=subscribe_keyboard()
     )
 
@@ -36,29 +37,4 @@ async def check_subscription(callback: CallbackQuery):
             )
             user = callback.from_user
             name = user.full_name
-            username = f"@{user.username}" if user.username else "без username"
-            profile_link = f"tg://user?id={user_id}"
-            await bot.send_message(
-                chat_id=MANAGER_ID,
-                text=(
-                    f"🔔 Новый клиент подписался!\n\n"
-                    f"👤 Имя: {name}\n"
-                    f"📎 Username: {username}\n"
-                    f"🔗 Профиль: {profile_link}"
-                )
-            )
-        else:
-            await callback.answer(
-                "❌ Подписка не найдена. Подпишись на канал и попробуй снова.",
-                show_alert=True
-            )
-    except Exception as e:
-        logging.error(f"Ошибка проверки подписки: {e}")
-        await callback.answer("Произошла ошибка. Попробуй позже.", show_alert=True)
-
-async def main():
-    print("Started polling...")
-    await dp.start_polling(bot)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+            username = f"@{user.use
